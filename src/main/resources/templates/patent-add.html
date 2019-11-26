@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+
+<head>
+    <meta charset="UTF-8">
+    <title>添加专利</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" href="css/font.css">
+    <link rel="stylesheet" href="css/xadmin.css">
+    <script type="text/javascript" src="layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/xadmin.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form method="post" class="layui-form" >
+            <input id="name" name="name" placeholder="专利名" type="text" lay-verify="required" class="layui-input" >
+            <hr class="hr15">
+            <input id="firstsno" name="firstsno" lay-verify="required" placeholder="发明人1-学号" type="text" class="layui-input">
+            <hr class="hr15">
+            <input id="secondsno" name="secondsno" lay-verify="required" placeholder="发明人2-学号" type="text" class="layui-input">
+            <hr class="hr15">
+            <input id="date" name="date" placeholder="日期" type="date" lay-verify="required" class="layui-input" >
+            <hr class="hr15">
+            <input id="pno" name="pno" lay-verify="required" placeholder="专利号" type="text" class="layui-input">
+            <hr class="hr15">
+            <input value="增加" lay-submit lay-filter="add" style="width:100%;" type="button" onclick="addpatent()">
+            <hr class="hr20" >
+        </form>
+    </div>
+</div>
+<script>
+    function addpatent() {
+        var name = document.getElementById("name").value;
+        var firstsno = document.getElementById("firstsno").value;
+        var secondsno = document.getElementById("secondsno").value;
+        var date = document.getElementById("date").value;
+        var pno = document.getElementById("pno").value;
+        var datas = new FormData();
+        datas.append("name",name);
+        datas.append("firstsno",firstsno);
+        datas.append("secondsno",secondsno);
+        datas.append("date",date);
+        datas.append("pno",pno);
+        if(name === "" || name === null){
+            alert("请输入专利名")
+        }
+        else if(firstsno === ""|| firstsno === null){
+            alert("请输入发明人1的学号")
+        }
+        else if(secondsno === ""|| secondsno === null){
+            alert("请输入发明人2的学号")
+        }
+        else if(date === ""|| date === null){
+            alert("请输入授权日期")
+        }
+        else if(pno === ""|| pno === null){
+            alert("请输入专利号")
+        }
+        else{
+            $.ajax({
+                type:"post",
+                url:"addpatent",
+                contentType:false,
+                processData:false,
+                data:datas,
+                dataType:"json",
+                success:function(data){
+                    if(data.code === 1){
+                        alert("专利添加成功！")
+                    }else{
+                        alert("专利添加失败，请重新添加！")
+                    }
+                }
+            });
+        }
+    }
+</script>
+</body>
+
+</html>

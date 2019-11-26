@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+
+<head>
+    <meta charset="UTF-8">
+    <title>添加论文</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" href="css/font.css">
+    <link rel="stylesheet" href="css/xadmin.css">
+    <script type="text/javascript" src="layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/xadmin.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form method="post" class="layui-form" >
+            <input id="title" name="title" placeholder="题目" type="text" lay-verify="required" class="layui-input" >
+            <hr class="hr15">
+            <input id="firstsno" name="firstsno" lay-verify="required" placeholder="第一作者-学号" type="text" class="layui-input">
+            <hr class="hr15">
+            <input id="secondsno" name="secondsno" lay-verify="required" placeholder="第二作者-学号" type="text" class="layui-input">
+            <hr class="hr15">
+            <input id="publication" name="publication" placeholder="刊物" type="text" lay-verify="required" class="layui-input" >
+            <hr class="hr15">
+            <input id="year" name="year" lay-verify="required" placeholder="年" type="text" class="layui-input">
+            <hr class="hr15">
+            <input id="volume" name="volume" lay-verify="required" placeholder="卷" type="text" class="layui-input">
+            <hr class="hr15">
+            <input id="stage" name="stage" placeholder="期" type="text" lay-verify="required" class="layui-input" >
+            <hr class="hr15">
+            <input id="page" name="page" lay-verify="required" placeholder="页码" type="text" class="layui-input">
+            <hr class="hr15">
+            <input id="index" name="index" lay-verify="required" placeholder="索引" type="text" class="layui-input">
+            <hr class="hr15">
+            索引证明<input id="indexpath" name="indexpath" lay-verify="required" placeholder="索引证明" type="file" accept="*/*" class="layui-input">
+            <hr class="hr15">
+            论文<input id="paperpath" name="index" lay-verify="required" placeholder="论文" type="file" accept="*/*" class="layui-input">
+            <hr class="hr15">
+            <input value="增加" lay-submit lay-filter="add" style="width:100%;" type="button" onclick="addpaper()">
+            <hr class="hr20" >
+        </form>
+    </div>
+</div>
+<script>
+    function addpaper() {
+        var title = document.getElementById("title").value;
+        var firstsno = document.getElementById("firstsno").value;
+        var secondsno = document.getElementById("secondsno").value;
+        var publication = document.getElementById("publication").value;
+        var year = document.getElementById("year").value;
+        var volume = document.getElementById("volume").value;
+        var stage = document.getElementById("stage").value;
+        var page = document.getElementById("page").value;
+        var index = document.getElementById("index").value;
+        var indexpath = $("#indexpath")[0].files[0];
+        var paperpath = $("#paperpath")[0].files[0];
+        var datas = new FormData();
+        datas.append("title",title);
+        datas.append("firstsno",firstsno);
+        datas.append("secondsno",secondsno);
+        datas.append("publication",publication);
+        datas.append("year",year);
+        datas.append("volume",volume);
+        datas.append("stage",stage);
+        datas.append("page",page);
+        datas.append("index",index);
+        datas.append("files",indexpath);
+        datas.append("files",paperpath);
+        if(title === "" || title === null){
+            alert("请输入论文题目")
+        }
+        else if(firstsno === ""|| firstsno === null){
+            alert("请输入第一作者的学号")
+        }
+        else if(secondsno === ""|| secondsno === null){
+            alert("请输入第二作者的学号")
+        }
+        else if(publication === ""|| publication === null){
+            alert("请输入刊物")
+        }
+        else if(year === ""|| year === null){
+            alert("请输入年")
+        }
+        else if(volume === ""|| volume === null){
+            alert("请输入卷")
+        }
+        else if(stage === ""|| stage === null){
+            alert("请输入期")
+        }
+        else if(page === ""|| page === null){
+            alert("请输入页码")
+        }
+        else if(index === ""|| index === null){
+            alert("请输入索引")
+        }
+        else if(indexpath === ""|| indexpath === null){
+            alert("请选择索引证明")
+        }
+        else if(paperpath === ""|| paperpath === null){
+            alert("请选择论文")
+        }
+        else{
+            $.ajax({
+                type:"post",
+                url:"addpaper",
+                contentType:false,
+                processData:false,
+                async: false,
+                data:datas,
+                dataType:"json",
+                success:function(data){
+                    if(data.code === 1){
+                        alert("论文上传成功！")
+                    }else{
+                        alert("论文上传失败，请重新上传！")
+                    }
+                }
+            });
+        }
+    }
+</script>
+</body>
+
+</html>

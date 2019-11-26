@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" lang="">
+<head>
+    <meta charset="UTF-8">
+    <title>学生指导</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" href="css/font.css">
+    <link rel="stylesheet" href="css/xadmin.css">
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/xadmin.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body layui-table-body layui-table-main">
+                    <table id="adminlist" class="layui-table layui-form">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>学号</th>
+                            <th>姓名</th>
+                            <th>专业</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id='zj'>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    window.onload = function () {
+        $.ajax({
+            type: "post",
+            url: "getusername",
+            dataType: "json",
+            success: function (data) {
+                var username = data.msg;
+                var datas = {"username": username};
+                $.ajax({
+                    type: "post",
+                    url: "studentlistbyteacher",
+                    data: datas,
+                    dataType: "json",
+                    success: function (data) {
+                        var id = 0;
+                        html = "";
+                        $(data.msg).each(function () {
+                            id++;
+                            html += "<tr>\n" +
+                                "<td>" + id + "</td>\n" +
+                                "<td>" + this.sno + "</td>\n" +
+                                "<td>" + this.sname + "</td>\n" +
+                                "<td>" + this.major + "</td>\n"
+                            html += "<td class=\"td-manage\">\n" +
+                                "<a title=\"查看学生成果\"  onclick=\"checkAchievement(\'" + this.sno + "\')\" href=\"javascript:;\">\n" +
+                                "<i class=\"layui-icon\">&#xe60e;</i>\n" +
+                                "</a>" +
+                                "<a title=\"检查周报\"  onclick=\"weeklycheck(\'" + this.sno + "\')\" href=\"javascript:;\">\n" +
+                                "<i class=\"layui-icon\">&#xe6b2;</i>\n" +
+                                "</a>" +
+                                "</td>\n" +
+                                "</tr>"
+                        });
+                        html += "</tbody>";
+                        var $tr = $(html);
+                        $("#zj").append($tr);
+                    }
+                });
+            }
+        });
+    };
+
+    function checkAchievement(studentno) {
+        var datas = {"studentno": studentno};
+        $.ajax({
+            type: "post",
+            url: "setstudentno",
+            data: datas,
+            dataType: "json",
+            success: function (data) {
+                if(data.code === 1){
+                    xadmin.open('查看学生成果', '/student-achievement', 900, 600);
+                }
+            }
+        });
+    }
+
+    function weeklycheck(studentno) {
+        var datas = {"studentno": studentno};
+        $.ajax({
+            type: "post",
+            url: "setstudentno",
+            data: datas,
+            dataType: "json",
+            success: function (data) {
+                if(data.code === 1){
+                    xadmin.open('检查周报', '/student-weeklycheck', 900, 600);
+                }
+            }
+        });
+    }
+</script>
+</html>

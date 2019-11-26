@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+
+<head>
+    <meta charset="UTF-8">
+    <title>管理员增加</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" href="css/font.css">
+    <link rel="stylesheet" href="css/xadmin.css">
+    <script type="text/javascript" src="layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form method="post" class="layui-form" >
+            <input id="username" name="username" placeholder="用户名" type="text" lay-verify="required" class="layui-input" >
+            <hr class="hr15">
+            <input id="password" name="password" lay-verify="required" placeholder="密码" type="password" class="layui-input">
+            <hr class="hr15">
+            <input id="rpassword" name="rpassword" lay-verify="required" placeholder="确认密码" type="password" class="layui-input">
+            <hr class="hr15">
+            <input value="增加" lay-submit lay-filter="add" style="width:100%;" type="button" onclick="addadmin()" onkeydown='if(event.keyCode===13){login();}'>
+            <hr class="hr20" >
+        </form>
+    </div>
+</div>
+<script>
+    function addadmin() {
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var rpassword = document.getElementById("rpassword").value;
+        var datas = {"username":username,"password":password};
+        if(username === "" || username === null){
+            alert("请输入用户名")
+        }
+        else if(password === ""|| password === null){
+            alert("请输入密码")
+        }
+        else if(password !== rpassword){
+            alert("两次输入的密码不一致，请重新输入")
+        }
+        else{
+            $.ajax({
+                type:"post",
+                url:"checkuser",
+                data:datas,
+                dataType:"json",
+                success:function(data){
+                    if(data.code === 0){
+                        $.ajax({
+                            type:"post",
+                            url:"addadmin",
+                            data:datas,
+                            dataType:"json",
+                            success:function(data){
+                                alert("注册成功")
+                            }
+                        });
+                    }else{
+                        alert("用户名已存在，请重新输入")
+                    }
+                }
+            });
+        }
+    }
+</script>
+</body>
+
+</html>

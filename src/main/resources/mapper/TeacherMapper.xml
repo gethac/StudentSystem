@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sdust.studentsystem.mapper.TeacherMapper">
+    <resultMap id="teacherList" type="com.sdust.studentsystem.entity.Teacher">
+        <id column="tno" property="tno"/>
+        <result column="name" property="name"/>
+        <result column="password" property="password"/>
+        <result column="state" property="state"/>
+        <result column="sex" property="sex"/>
+        <result column="education" property="education"/>
+        <result column="title" property="title"/>
+        <result column="office" property="office"/>
+        <result column="department" property="department"/>
+        <result column="tel" property="tel"/>
+        <result column="introduction" property="introduction"/>
+        <result column="direction" property="direction"/>
+    </resultMap>
+
+    <select id="selectTeacher" resultMap="teacherList" parameterType="java.util.Map">
+        SELECT * FROM teacher WHERE #{username}= name AND #{password} = password and state = '1'
+    </select>
+
+    <select id="selectTeacher2" resultMap="teacherList" parameterType="java.util.Map">
+        SELECT * FROM teacher WHERE #{username}= name
+    </select>
+
+    <select id="selectTeacherList" resultMap="teacherList">
+        SELECT * FROM teacher
+    </select>
+
+    <select id="searchTeacher" resultMap="teacherList" parameterType="java.util.Map">
+        SELECT * FROM teacher where name = #{username}
+    </select>
+
+    <update id="startuser" parameterType="java.util.Map">
+        update teacher set state = '1' where name = #{username}
+    </update>
+
+    <update id="stopuser" parameterType="java.util.Map">
+        update teacher set state = '0' where name = #{username}
+    </update>
+
+    <delete id="deleteuser" parameterType="java.util.Map">
+        delete from teacher where name = #{username}
+    </delete>
+
+</mapper>

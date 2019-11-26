@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sdust.studentsystem.mapper.PaperMapper">
+    <resultMap id="paperList" type="com.sdust.studentsystem.entity.Paper">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="firstsno" property="firstsno"/>
+        <result column="secondsno" property="secondsno"/>
+        <result column="publication" property="publication"/>
+        <result column="year" property="year"/>
+        <result column="volume" property="volume"/>
+        <result column="stage" property="stage"/>
+        <result column="page" property="page"/>
+        <result column="ind" property="ind"/>
+        <result column="indexpath" property="indexpath"/>
+        <result column="paperpath" property="paperpath"/>
+    </resultMap>
+
+    <select id="getpaperlistbystudentno" parameterType="java.util.Map" resultMap="paperList">
+        select * from paper where firstsno = #{studentno} or secondsno = #{studentno}
+    </select>
+
+    <select id="getpaperbytitle" parameterType="java.util.Map" resultMap="paperList">
+        select * from paper where title = #{title}
+    </select>
+
+    <insert id="addpaper" parameterType="java.util.Map">
+        insert into paper (title,firstsno,secondsno,publication,year,volume,stage,page,ind,indexpath,paperpath)
+        values (#{title},#{firstsno},#{secondsno},#{publication},#{year},#{volume},#{stage},#{page},#{index},#{indexpath},#{paperpath})
+    </insert>
+</mapper>

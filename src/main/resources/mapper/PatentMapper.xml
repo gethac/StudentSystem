@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sdust.studentsystem.mapper.PatentMapper">
+    <resultMap id="patentList" type="com.sdust.studentsystem.entity.Patent">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="firstsno" property="firstsno"/>
+        <result column="secondsno" property="secondsno"/>
+        <result column="date" property="date"/>
+        <result column="pno" property="pno"/>
+    </resultMap>
+
+    <select id="getpatentlistbystudentno" parameterType="java.util.Map" resultMap="patentList">
+        select * from patent where firstsno = #{studentno} or secondsno = #{studentno}
+    </select>
+
+    <insert id="addpatent" parameterType="java.util.Map">
+        insert into patent (name,firstsno,secondsno,date,pno)
+        values (#{name},#{firstsno},#{secondsno},#{date},#{pno})
+    </insert>
+
+</mapper>

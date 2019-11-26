@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sdust.studentsystem.mapper.WeeklyMapper">
+    <resultMap id="weeklyList" type="com.sdust.studentsystem.entity.Weekly">
+        <id column="id" property="id"/>
+        <result column="sno" property="sno"/>
+        <result column="plan" property="plan"/>
+        <result column="completionstatus" property="completionstatus"/>
+        <result column="year" property="year"/>
+        <result column="title" property="title"/>
+        <result column="week" property="week"/>
+        <result column="comment" property="comment"/>
+    </resultMap>
+
+    <select id="getWeekly" parameterType="java.util.Map" resultMap="weeklyList">
+        select * from weekly where sno = #{studentno} and year = #{year} and week = #{week}
+    </select>
+
+    <update id="setcomment" parameterType="java.util.Map">
+        update weekly set comment = #{comment} where sno = #{sno} and year = #{year} and week = #{week}
+    </update>
+
+    <update id="setcompletionstatus" parameterType="java.util.Map">
+        update weekly set completionstatus = #{completionstatus} where sno = #{sno} and year = #{year} and week = #{week}
+    </update>
+
+    <insert id="setnowplan" parameterType="java.util.Map">
+        insert into weekly (sno,plan,year,week) values (#{sno},#{plan},#{year},#{week})
+    </insert>
+</mapper>
