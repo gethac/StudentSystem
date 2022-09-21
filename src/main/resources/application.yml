@@ -8,8 +8,8 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       url: jdbc:mysql://localhost:3306/studentsystem?serverTimezone=UTC
-      username: root
-      password: gyp486987
+      username: ******
+      password: ******
       driver-class-name: com.mysql.cj.jdbc.Driver
       initial-size: 1                     #连接池初始大小
       max-active: 20                      #连接池中最大的活跃连接数
