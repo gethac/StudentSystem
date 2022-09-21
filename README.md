@@ -1,3 +1,3 @@
-# springbootsystem
+# StudentSystem
 我的第一个springboot项目
 主要用于学院研究生信息的管理
